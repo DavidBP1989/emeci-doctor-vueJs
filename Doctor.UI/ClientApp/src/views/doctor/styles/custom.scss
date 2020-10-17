@@ -1,0 +1,28 @@
+.contact-us {
+    background-color:#CA6CBD;
+    color:white;
+    padding:2%;
+    a {
+        color: black;
+    }
+    button {
+        color: black !important;
+        &:hover {
+            color: black !important;
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    .contact-us .img-content {
+        margin-top: 25%;
+    }
+}
+@media (max-width: 768px) {
+    .contact-us .img-content { 
+        left: 3%;
+    }
+    .register .card {
+         margin-top: 2%;
+    }
+}

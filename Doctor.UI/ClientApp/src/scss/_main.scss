@@ -1,0 +1,224 @@
+$bg-header-top: #418AE0;
+$txt-pink: #CA6CBD;
+.main {
+
+    .title {
+        color: $txt-pink;
+        /*font-weight: 700px;*/
+    }
+    .no-border { border: 0px; }
+    .bg-none { background-color: transparent !important }
+    .bg-gray { background-color: $gray-100; }
+
+    .fa-lg { font-size: 1.20em !important;}
+    .fa-2x { font-size: 1.8em !important; }
+    
+    .header-top {
+        background-color: $bg-header-top;
+        .list-group {
+            padding: 0;
+            .danger { color: #dc3545 !important}
+            &.point svg {
+                cursor: pointer;
+                color: #ffffff;
+            }
+            &.point .dropdown-menu svg{
+                color: black;
+            }
+        }
+        .list-group-item {
+            color: #ffffff;
+            background-color: $bg-header-top;
+            border: none;
+            padding: 0.25rem 1.25rem;
+            & span {
+                font-size: 14px;
+                vertical-align: sub;
+            }
+        }
+        .btn-group { vertical-align: text-top !important;}
+        .dropdown .btn {
+            padding: 0 !important;
+            border: 0 !important;
+            background-color: transparent !important;
+            border-color: transparent !important;
+            &:active {
+                background-color: transparent !important;
+            }
+        }
+    }
+    header {
+        .navbar-brand {
+            padding: 10px 10px;
+            /*width: 100%;*/
+            & img {
+                width: 70%;
+            }
+        }
+        .navbar-nav li > a {
+            padding: 20px 10px;
+            font-weight: 600;
+        }
+        .navbar-toggler {
+            outline: none;
+        }
+        .breadcrumb { background-color: transparent !important;}
+        #headernavbar .nav-link {
+            border-bottom: none;
+            padding-top: 1rem;
+            padding-bottom: .5rem;
+        }
+        .brown {
+            color: brown;
+        }
+    }
+
+
+
+
+    /*.custom-select { 
+        background: none !important;
+    }*/
+    .btn-link {
+        color: $bg-header-top !important;
+        &:focus, &:hover { text-decoration: none !important; color: $bg-header-top !important }
+    }
+    
+
+
+
+
+
+
+
+    //sidebar datos del paciente
+    .b-sidebar-header {
+        color: $txt-pink;
+    }
+    .b-sidebar-body {
+        font-size: 14px;
+        .list-group-item {
+            padding: 0.35rem !important;
+            border: none !important;
+            background-color: transparent !important;
+        }
+        h6 { color: $bg-header-top; }
+    }
+
+
+    //consultas
+    .showt {
+        display: block;
+        transition: all 400ms ease;
+    }
+    .hidet {
+        display: none;
+        transition: all 400ms ease;
+    }
+
+    .card-body {
+        font-size: 14px;;
+    }
+    .card-header {
+        .custom-select { width: auto !important;}
+    }
+    
+    
+
+    //LISTADO DE PACIENTES
+    
+    .table a { 
+        /*color: mediumvioletred;*/
+        &:hover {
+            color: $bg-header-top;
+        }
+    }
+
+    //NUEVO PACIENTE
+    input[type=input].vc-border {
+        border-width: 0px !important;
+        &:disabled {
+            background-color: #e9ecef;
+        }
+        &:focus {
+            color: #495057;
+            background-color: #fff;
+            border-color: #80bdff;
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+    }
+    .fz25 {
+        font-size: 25px;
+        color: goldenrod;
+    }
+
+    //CONSULTAS
+    .card-consult .card-header {
+        font-size: 18px;
+        .btn {
+            background-color: transparent;
+            border-color: transparent;
+            color: black;
+            &:focus {
+                box-shadow: none !important;
+            }
+        }
+    }
+    #_previous {
+        legend { 
+            font-weight: 600;
+            font-size: 15px !important;
+        }
+        .list-group-item {
+            padding: 0.45rem 1rem 0 0 !important;
+            border: none !important;
+        }
+        .nlegend legend {
+            font-weight: unset !important;
+            font-size: inherit !important;
+        }
+        svg {
+            color: rgba(0, 0, 0, 0.5);
+        }
+    }
+    .title-patient {
+        font-size: larger;;
+    }
+    .newconsult,.register .col-form-label{
+        font-weight: 600;
+    }
+    .register h5 {
+        color: $bg-header-top;
+        font-weight: 400;
+    }
+}
+
+
+
+.swal2-html-container {
+    font-size: 15px;
+}
+
+
+@media (max-width: 992px) {
+
+    header .navbar-brand {
+        width: 100%;
+        display: flex;
+    }
+
+    .swal2-title {
+        margin-top: 1rem !important;
+    }
+
+    .swal2-close {
+        margin-right: 1rem !important;
+    }
+    .swal2-container {
+        padding: 0 !important;
+        &.container {
+            font-size: 14px;
+        }
+    }
+}

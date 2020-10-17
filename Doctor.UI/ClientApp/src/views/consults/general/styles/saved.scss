@@ -1,0 +1,29 @@
+.list-group {
+    max-height: 280px;
+    overflow-y: scroll;
+}
+.list-group-item { font-size: 13px !important; }
+.list-saved-data {
+    .btn { font-size: 12px !important; }
+    &:hover {
+        color: white !important;
+        border-color: #17a2b8;
+        background-color: #17a2b8 !important;
+        .btn-link { color: black !important; }
+    }
+    &:disabled {
+        background-color: #fff3cd;
+    }
+}
+.bg-gray-list-group-item { background-color: #F8F9FF; }
+button {
+    &:focus {
+        outline: none !important;
+    }
+}
+.delete {
+    color: red;
+}
+#modal-delete___BV_modal_outer_,
+#modal-list___BV_modal_outer_,
+#modal-delete-error___BV_modal_outer_ { z-index: 9999 !important; }

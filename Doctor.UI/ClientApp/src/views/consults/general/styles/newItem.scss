@@ -1,0 +1,8 @@
+.list-group {
+    max-height: 280px;
+    overflow-y: scroll;
+}
+.list-group-item { font-size: 13px !important; }
+#saveas___BV_modal_outer_, #modal-newGroup___BV_modal_outer_ {
+    z-index: 9999 !important;
+}

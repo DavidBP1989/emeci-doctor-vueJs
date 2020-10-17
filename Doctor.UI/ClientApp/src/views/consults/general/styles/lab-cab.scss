@@ -1,0 +1,47 @@
+p {
+    font-size: 15px;
+}
+.card {
+    border-bottom: none;
+}
+.card-header {
+    border-bottom: none !important;
+}
+.selected {
+    background-color: #2BBBAD;
+}
+.pointer {
+    cursor: pointer;
+    color: red;
+}
+.btn-secondary {
+    background-color: transparent;
+    border-color: transparent;
+    color: black;
+    font-size: 15px;
+    &:focus, :active {
+        background-color: transparent;
+        border-color: transparent;
+        color: black;
+        box-shadow: none;
+    }
+    &:hover {
+        background-color: transparent;
+        border-color: #3F729B;
+        color: black
+    }
+}
+.btn-link {
+    font-size: 15px;
+}
+.tablist {
+    font-size: 14px;;
+}
+.uncheck {
+    color: #eeeeee;
+    cursor: pointer;
+}
+.check {
+    color: #00a047;
+    cursor: pointer;
+}

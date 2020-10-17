@@ -1,0 +1,32 @@
+﻿@model WebAPI.Models.EmailTemplate
+To: @Model.To
+Bcc: @Model.Bcc
+Subject: @Html.Raw(Model.Subject)
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body style="background-image: url(https://www.emeci.com/ConsultaMedico/img/fondo-acceso-emeci.jpg); font-weight: 400; font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif">
+        <div style="width:80%; margin: 7% auto;">
+            <div style="font-size: 35px; text-align: center; font-weight: 300; padding-top: 15px; background-color: white;">
+                <img style="vertical-align: middle; border: 0;" src="https://www.emeci.com/ConsultaMedico/img/emeci.png" />
+            </div>
+            <div style="background-color: white; padding: 20px; border-top: 0; color: #666;">
+                <h3 style="text-align: center; padding: 0 20px 20px 20px; margin: 0;">@Model.Title</h3>
+                <div>
+                    @switch (Model.TypeEmailToSend)
+                    {
+                        case WebAPI.Models.EmailTemplate.TypeEmail.forgotPwd:
+                            @Html.Partial("/Views/Emails/MainViews/ForgotPwd.cshtml", Model.ForgotPwd)
+                            break;
+                        case WebAPI.Models.EmailTemplate.TypeEmail.doctorRegister:
+                            @Html.Partial("/Views/Emails/MainViews/Register.cshtml", Model.DoctorRegister)
+                            break;
+                    }
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
