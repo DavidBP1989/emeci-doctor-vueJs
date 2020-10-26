@@ -1,10 +1,16 @@
 import Vue from 'vue';
 import { router } from '../router';
+import $ from 'jquery';
 
 const urlFileEmeci = 'https://www.emeci.com/PacienteExpediente/AccesEmeci.aspx';
 
 function userFormat(evt, onceDash = false) {
+    const value = $(evt.path[0]).val();
     let charCode = (evt.which) ? evt.which : evt.keyCode;
+
+    if (value.length === 5 && !onceDash) {
+
+    }
     // 0 - 9 or dash
     if (onceDash && charCode === 45) // solo se puede agregar una vez el guion
         return evt.preventDefault();

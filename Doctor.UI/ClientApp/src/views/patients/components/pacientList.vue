@@ -102,15 +102,14 @@ export default {
     methods: {
         provider(ctx, callback) {
             this.isBusy = true;
-            let skip = 0;
-            if (ctx.currentPage > 1)
-                skip = ctx.perPage * (ctx.currentPage - 1)
 
             api.get(
                 this.doctorId,
+                ctx.currentPage,
+                this.itemsPerPage,
+                this.filterBy(ctx.filter),
+                ctx.filter,
                 this.orderBy(ctx.sortBy, ctx.sortDesc),
-                skip,
-                this.filterBy(ctx.filter)
             )
             .then(response => {
                 this.totalRow = parseInt(response.headers.map['x-total-count'][0] || 0)
@@ -122,24 +121,16 @@ export default {
             });
         },
         orderBy(sortBy, sortDesc) {
-            const defaultSort = 'Name';
+            const defaultSort = 'name';
             if (!sortBy)
-                return defaultSort;
+                return `${defaultSort} asc`;
             const _sortBy = sortBy === 'fullname' ? defaultSort : sortBy;
             return `${_sortBy} ${sortDesc ? 'desc' : 'asc'}`;
         },
         filterBy(filter) {
             let property = null;
-            if (/(.*[a-z]){3}/i.test(filter))
-            {
-                property = '';
-                filter.trim().split(' ').forEach((x, index) => {
-                    if (index > 0) property += ' or ';
-                    property += `substringof('${x}', tolower(Name))`;
-                });
-            }
-            if (/(.*[0-9]){10}/i.test(filter))
-                property = `substringof('${filter}', EMECI)`;
+            if (/(.*[a-z]){3}/i.test(filter)) property = 'Nombre';
+            if (/(.*[0-9])/i.test(filter)) property = 'Emeci';
 
             return property;
         },

@@ -6,7 +6,7 @@ Vue.use(VueResource);
 const customActions = {
     get: {
         method: 'GET',
-        url: `${API_URL}/patient/{doctorId}{?$orderby,$skip,$filter}`
+        url: `${API_URL}/patient/{doctorId}{?page,itemsPerPage,columnName,textToSearch,orderby}`
     },
     getById: {
         method: 'GET',
@@ -32,12 +32,14 @@ export default {
     /**
      * Obtiene el listado de pacientes
      */
-    get(doctorId, $orderby, $skip, $filter) {
+    get(doctorId, page, itemsPerPage, columnName, textToSearch, orderby) {
         return api.get({
             doctorId,
-            $orderby,
-            $skip,
-            $filter
+            page,
+            itemsPerPage,
+            columnName,
+            textToSearch,
+            orderby
         });
     },
     /**

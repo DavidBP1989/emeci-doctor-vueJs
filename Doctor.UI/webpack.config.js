@@ -46,13 +46,13 @@ module.exports = {
     plugins: [
         new htmlWebpackPlugin(),
         new vueLoaderPlugin(),
-        //new webpack.DefinePlugin({
-        //    'API_URL_AUTHENTICATION': JSON.stringify('https://localhost:44323'),
-        //    'API_URL': JSON.stringify('https://localhost:44323/api')
-        //})
         new webpack.DefinePlugin({
-            'API_URL_AUTHENTICATION': JSON.stringify('https://emeci.com/doctorapi'),
-            'API_URL': JSON.stringify('https://emeci.com/doctorapi/api')
+            'API_URL_AUTHENTICATION': JSON.stringify('https://localhost:44323'),
+            'API_URL': JSON.stringify('https://localhost:44323/api')
         })
+        //new webpack.DefinePlugin({
+        //    'API_URL_AUTHENTICATION': JSON.stringify('https://emeci.com/doctorapi'),
+        //    'API_URL': JSON.stringify('https://emeci.com/doctorapi/api')
+        //})
     ]
 };

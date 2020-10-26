@@ -5,7 +5,9 @@ using System.Linq;
 using System.Transactions;
 using WebAPI.App_Code;
 using WebAPI.Models;
+using Dapper;
 using WebAPI.Models.DTO._Patient;
+using System.Threading.Tasks;
 
 namespace WebAPI.Services._Patient
 {
@@ -27,21 +29,23 @@ namespace WebAPI.Services._Patient
         /// <summary>
         /// get pacient list by doctor
         /// </summary>
-        public IEnumerable<Patients> Get(int doctorId)
+        public async Task<Tuple<int,IEnumerable<Patients>>> Get(int doctorId, int? page, int? itemsPerPage, string columnName, string textToSearch, string orderby)
         {
-            var q = GetPatientsByDoctorId(doctorId)
-                .Select(p => new Patients
-                {
-                    Id = p.patientId,
-                    Name = p.name.Trim() + " " + p.lastName.Trim(),
-                    //LastName = p.lastName.Trim(),
-                    EMECI = p.emeci,
-                    Sex = p.sex,
-                    LastConsultation = p.lastConsultation,
-                    AgeInMonths = AgeInMonths(p.birthDate)
-                });
+            string emeci = GetEmeci(doctorId);
+            int _page = (int)((page - 1) * itemsPerPage);
 
-            return q;
+            var result = await Context.Database.Connection.QueryMultipleAsync("spPatientList", new {
+                emeci,
+                columnName,
+                @textToSearch = textToSearch.Replace(' ', '%'), 
+                @page = _page,
+                itemsPerPage,
+                orderby
+            }, null, null, System.Data.CommandType.StoredProcedure);
+
+            int totalRows = result.Read<int>().First();
+
+            return new Tuple<int,IEnumerable<Patients>>(totalRows, result.Read<Patients>().ToList());
         }
 
 
@@ -218,6 +222,17 @@ namespace WebAPI.Services._Patient
             return Context.vPatients
                 .Where(x => x.emeci.StartsWith(emeci))
                 .ToList();
+        }
+
+        private string GetEmeci(int doctorId)
+        {
+            return Context.Registro
+                .Join(Context.Medico,
+                    reg => reg.idRegistro,
+                    med => med.IdRegistro,
+                    (reg, med) => new { r = reg, m = med })
+                .Where(x => x.m.Idmedico == doctorId)
+                .FirstOrDefault()?.r.Emeci;
         }
 
         private int AgeInMonths(DateTime? birthDate)
