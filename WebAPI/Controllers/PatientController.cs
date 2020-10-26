@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.OData;
 using WebAPI.Models.DTO._Patient;
@@ -13,15 +14,23 @@ namespace WebAPI.Controllers
     {
         private readonly Service service = new Service();
 
-
-        [EnableQuery(PageSize = 15)]
         [Route("{doctorId:Int}")]
         [queryable]
         [HttpGet]
-        //GET /api/patient/1400
-        public IEnumerable<Patients> Get(int doctorId)
+        public async Task<IEnumerable<Patients>> Get(
+            int doctorId, int? page, int? itemsPerPage, string columnName = null,
+            string textToSearch = null, string orderby = null)
         {
-            return service.Get(doctorId);
+            var result = await service.Get(
+                doctorId, page ?? 1,
+                itemsPerPage ?? 15,
+                columnName ?? "Nombre",
+                textToSearch ?? "",
+                orderby ?? "name asc"
+            );
+
+            Request.Properties["x-total-count"] = result.Item1;
+            return result.Item2;
         }
 
 

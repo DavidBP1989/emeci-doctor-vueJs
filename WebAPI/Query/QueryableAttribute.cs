@@ -10,16 +10,14 @@ namespace WebAPI.Query
     {
         public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
         {
-            actionExecutedContext.Response.TryGetContentValue(out IEnumerable model);
-            if (model != null)
+            if (actionExecutedContext.Request.Properties.ContainsKey("x-total-count"))
             {
-                IQueryable modelQuery = model.AsQueryable();
+                int.TryParse(actionExecutedContext.Request.Properties["x-total-count"].ToString(), out int value);
 
-                var count = (modelQuery as IQueryable<Patients>).Count();
                 actionExecutedContext.Response.Headers.Add("Access-Control-Expose-Headers", "X-Total-Count");
-                actionExecutedContext.Response.Headers.Add("X-Total-Count", count.ToString());
+                actionExecutedContext.Response.Headers.Add("X-Total-Count", value.ToString());
             }
-
+            
             base.OnActionExecuted(actionExecutedContext);
         }
     }

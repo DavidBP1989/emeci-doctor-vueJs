@@ -5,7 +5,7 @@
 
         <b-form @submit="onSubmit" autocomplete="off">
             <b-form-group class="mb-3">
-                <b-form-input v-model="emeci" @keypress="format" placeholder="Número de tarjeta" />
+                <b-form-input maxlength="10" v-model="emeci" @keypress="format" placeholder="Número de tarjeta" />
             </b-form-group>
             <b-form-group class="mb-4">
                 <b-form-input v-model="password" type="password" placeholder="***********" />
@@ -46,10 +46,7 @@ export default {
             if (this.validFeedback()) {
                 loader = this.loader();
 
-                api.getToken({
-                    username: this.emeci,
-                    password: this.password
-                }).then(response => {
+                api.getToken({ username: this.emeci, password: this.password }).then(response => {
                     this.error = false;
                     this.getDoctor();
                 })
@@ -60,10 +57,7 @@ export default {
             }
         },
         getDoctor() {
-            apiDoctor.get(
-                this.$appConfig.doctor.doctorId
-            )
-            .then(response => {
+            apiDoctor.get(this.$appConfig.doctor.doctorId).then(response => {
                 this.$appConfig.doctor.emeci = response.body.EMECI;
                 this.$appConfig.doctor.name = response.body.Name;
                 this.$saveConfig();
