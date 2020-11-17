@@ -9,8 +9,8 @@ import newPatient from '../views/patients/components/newPatient.vue';
 
 import index_consults from '../views/consults/index.vue';
 import generalConsult from '../views/consults/general/index.vue';
-import obstetricConsult from '../views/consults/obstetric/obstetric.vue';
-import gynecologyConsult from '../views/consults/gynecology/gynecology.vue';
+import obstetricConsult from '../views/consults/obstetric/index.vue';
+import gynecologyConsult from '../views/consults/gynecology/index.vue';
 
 import index_doctor from '../views/doctor/index.vue';
 import register from '../views/doctor/components/register.vue';

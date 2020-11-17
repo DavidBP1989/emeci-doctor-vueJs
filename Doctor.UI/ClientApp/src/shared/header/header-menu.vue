@@ -1,5 +1,5 @@
 <template>
-    <b-navbar toggleable="md" class="p-0 bg-gray">
+    <b-navbar toggleable="md" class="p-0 bg-gray" :class="border">
             <b-container class="p-0">
                 <b-navbar-brand class="justify-content-between mr-0">
                     <b-navbar-toggle class="border-0" target="headernavbar" v-if="menu !== ''">
@@ -56,6 +56,13 @@ export default {
             consultMenu: false,
             menu: this.$route.meta.typeMenu || '',
             emeciPatient: this.$route.params.id
+        }
+    },
+    computed: {
+        border() {
+            const path = this.$route.path;
+            //return (path.includes('gynecology') || path.includes('obstetric')) ? 'border-gine-obst' : '';
+            return '';
         }
     },
     methods: {

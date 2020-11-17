@@ -42,5 +42,7 @@ namespace WebAPI.Models
         public virtual DbSet<Paciente> Paciente { get; set; }
         public virtual DbSet<Ciudades> Ciudades { get; set; }
         public virtual DbSet<Estados> Estados { get; set; }
+        public virtual DbSet<ConsultaGinecologa> ConsultaGinecologa { get; set; }
+        public virtual DbSet<ConsultaObstetrica> ConsultaObstetrica { get; set; }
     }
 }

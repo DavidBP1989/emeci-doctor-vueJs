@@ -203,6 +203,12 @@
     <Compile Include="Models\Ciudades.cs">
       <DependentUpon>EDMEmeci.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ConsultaGinecologa.cs">
+      <DependentUpon>EDMEmeci.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ConsultaObstetrica.cs">
+      <DependentUpon>EDMEmeci.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Consultas.cs">
       <DependentUpon>EDMEmeci.tt</DependentUpon>
     </Compile>
@@ -212,6 +218,9 @@
     <Compile Include="Models\Diagnosticos.cs">
       <DependentUpon>EDMEmeci.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DTO\_Consults\BasicConsult.cs" />
+    <Compile Include="Models\DTO\_Consults\Consult.cs" />
+    <Compile Include="Models\DTO\_Consults\GynecologyConsult.cs" />
     <Compile Include="Models\DTO\_Consults\PatientConsult.cs" />
     <Compile Include="Models\DTO\_Diagnostic\DiagnosticsRes.cs" />
     <Compile Include="Models\DTO\_Doctor\ChangePwdReq.cs" />

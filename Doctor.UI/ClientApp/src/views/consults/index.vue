@@ -1,6 +1,6 @@
 <template>
     <div class="main">
-        <main-header></main-header>
+        <main-header />
         <b-container class="mt-4">
             <b-sidebar
             title="Paciente"
@@ -9,7 +9,7 @@
             backdrop
             shadow
             backdrop-variant="dark">
-                <pacient-info :patientInfo="patient" :patientData="patientData"></pacient-info>
+                <pacient-info :patientInfo="patient" :patientData="patientData" />
             </b-sidebar>
 
             <b-row class="align-items-end">
@@ -25,7 +25,7 @@
                     </b-form-group>
                 </b-col>
             </b-row>
-            <router-view class="mt-1 card-consult" :patientInfo="patient"></router-view>
+            <router-view class="mt-1 card-consult" :patientInfo="patient" />
         </b-container>
     </div>
 </template>

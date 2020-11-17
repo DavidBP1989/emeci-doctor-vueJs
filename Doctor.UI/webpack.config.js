@@ -54,5 +54,10 @@ module.exports = {
         //    'API_URL_AUTHENTICATION': JSON.stringify('https://emeci.com/doctorapi'),
         //    'API_URL': JSON.stringify('https://emeci.com/doctorapi/api')
         //})
-    ]
+    ],
+    resolve: {
+        alias: {
+            '@': path.join(__dirname, './ClientApp/src/')
+        }
+    }
 };

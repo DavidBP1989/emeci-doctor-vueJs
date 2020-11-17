@@ -86,7 +86,9 @@ $txt-pink: #CA6CBD;
     
 
 
-
+    .border-gine-obst {
+        border-bottom: 4px solid #CA6CBD;
+    }
 
 
 
@@ -117,11 +119,15 @@ $txt-pink: #CA6CBD;
     }
 
     .card-body {
-        font-size: 14px;;
+        font-size: 14px;
+        .custom-control-inline {
+            margin-bottom: 1rem;
+        }
     }
     .card-header {
         .custom-select { width: auto !important;}
     }
+    
     
     
 
@@ -165,7 +171,7 @@ $txt-pink: #CA6CBD;
             }
         }
     }
-    #_previous {
+    #_previous, #__preview {
         legend { 
             font-weight: 600;
             font-size: 15px !important;
@@ -185,7 +191,7 @@ $txt-pink: #CA6CBD;
     .title-patient {
         font-size: larger;;
     }
-    .newconsult,.register .col-form-label{
+    .newconsult,.register,.gine,.obste,.fw .col-form-label{
         font-weight: 600;
     }
     .register h5 {
