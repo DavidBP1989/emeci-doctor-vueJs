@@ -1,7 +1,7 @@
 <template>
     <header class="mb-2">
-        <header-top v-if="loggedIn"></header-top>
-        <header-menu></header-menu>
+        <header-top v-if="loggedIn" />
+        <header-menu />
         <b-container class="pt-3">
             <b-row class="align-items-center">
                 <b-col md="6" order="2" order-md="1">

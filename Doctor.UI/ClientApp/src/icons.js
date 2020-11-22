@@ -26,7 +26,8 @@ import {
     faArchive,
     faSyringe,
     faCheck,
-    faAddressBook
+    faAddressBook,
+    faCheckCircle
 } from '@fortawesome/free-solid-svg-icons';
 import { 
     faFacebookF,
@@ -60,7 +61,8 @@ library.add(
     faArchive,
     faSyringe,
     faCheck,
-    faAddressBook
+    faAddressBook,
+    faCheckCircle
 );
 
 Vue.component('fa-icon', FontAwesomeIcon);

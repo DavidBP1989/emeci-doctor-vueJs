@@ -45,7 +45,10 @@ namespace WebAPI.Services._Patient
 
             int totalRows = result.Read<int>().First();
 
-            return new Tuple<int,IEnumerable<Patients>>(totalRows, result.Read<Patients>().ToList());
+            var _result = result.Read<Patients>().ToList();
+            foreach (var r in _result) r.AgeInMonths = AgeInMonths(r.BirthDate);
+
+            return new Tuple<int,IEnumerable<Patients>>(totalRows, _result);
         }
 
 

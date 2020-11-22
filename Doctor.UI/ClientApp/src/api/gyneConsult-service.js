@@ -6,15 +6,15 @@ Vue.use(VueResource);
 const customActions = {
     get: {
         method: 'GET',
-        url: `${API_URL}/consults/general/{consultId}`
+        url: `${API_URL}/consults/gynecology/{consultId}`
     },
     post: {
         method: 'POST',
-        url: `${API_URL}/consults/general/{doctorId}`
+        url: `${API_URL}/consults/gynecology/{doctorId}`
     },
     getConsultationDates: {
         method: 'GET',
-        url: `${API_URL}/consults/general/dates//{pacientId}`
+        url: `${API_URL}/consults/gynecology/dates//{pacientId}`
     }
 };
 
@@ -27,7 +27,7 @@ export default {
         });
     },
     post(doctorId, request) {
-        return api.post({ doctorId }, request);
+        return api.post({ doctorId }, request)
     },
     getConsultationDates(pacientId) {
         return api.getConsultationDates({
