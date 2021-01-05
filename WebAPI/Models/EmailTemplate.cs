@@ -1,6 +1,7 @@
 ﻿using Postal;
 using WebAPI.Models.DTO;
 using WebAPI.Models.DTO._Doctor;
+using WebAPI.Models.DTO._Patient;
 
 namespace WebAPI.Models
 {
@@ -17,12 +18,14 @@ namespace WebAPI.Models
         public enum TypeEmail
         {
             forgotPwd,
-            doctorRegister
+            doctorRegister,
+            patientRegister
         }
 
         public string Title { get; set; }
         public TypeEmail TypeEmailToSend { get; set; }
         public ForgotPasswordRes ForgotPwd { get; set; }
         public Register DoctorRegister { get; set; }
+        public NewPatientReq PatientReq { get; set; }
     }
 }

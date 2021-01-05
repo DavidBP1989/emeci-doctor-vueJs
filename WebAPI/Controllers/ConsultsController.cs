@@ -38,6 +38,15 @@ namespace WebAPI.Controllers
             else return NotFound();
         }
 
+        [Route("obstetric/{doctorId:Int}")]
+        [HttpPost]
+        public IHttpActionResult Post(int doctorId, [FromBody]ObstetricConsult req)
+        {
+            if (service.SaveObstetricConsult(doctorId, req))
+                return Ok();
+            else return NotFound();
+        }
+
         [Route("general/dates/{pacientId:Int}")]
         [HttpGet]
         public IEnumerable<ConsultationDates> ConsultationsDates(int pacientId)

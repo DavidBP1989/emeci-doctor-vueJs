@@ -231,10 +231,13 @@ export default {
             if (!this.error) {
                 loader = initLoader();
                 api.post(this.doctorId, this.req).then(response => {
+                    console.log(response.body);
                     loader.hide();
                     const patientId = response.body.PatientId;
+                    console.log(patientId);
                     if (patientId != null) {
-                        saved('Paciente agregado', `/consults/${patientId}`);
+                        
+                        saved(true, 'Paciente agregado', `/consults/${patientId}`);
                     } this.failure();
                 })
                 .catch(_error => {

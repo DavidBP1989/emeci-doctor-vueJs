@@ -206,6 +206,12 @@ $txt-pink: #CA6CBD;
     font-size: 15px;
 }
 
+.showExtraCol {
+    display: block;
+}
+.hideExtracol {
+    display: none;
+}
 
 @media (max-width: 992px) {
 
@@ -226,5 +232,18 @@ $txt-pink: #CA6CBD;
         &.container {
             font-size: 14px;
         }
+    }
+
+    .showExtraCol {
+        display: none;
+    }
+    .hideExtracol {
+        display: block;
+    }
+}
+
+@media (max-width:576px) {
+    .custom-control-inline {
+        display: block !important;
     }
 }

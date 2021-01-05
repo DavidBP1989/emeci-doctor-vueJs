@@ -15,7 +15,7 @@
                                     <b-form-input v-model="req.name" />
                                 </b-form-group>
                             </b-col>
-                            <b-col cols="6" sm="6" md="3">
+                            <b-col sm="6" md="3">
                                 <b-form-group label="Sexo">
                                     <b-input-group>
                                         <b-form-select :options="sexOptions" v-model="req.sex" />
@@ -27,19 +27,19 @@
                                     </b-input-group>
                                 </b-form-group>
                             </b-col>
-                            <b-col cols="6" sm="6" md="3">
+                            <b-col cols="7" sm="6" md="3">
                                 <b-form-group label="Estado civil">
                                     <b-form-select :options="maritalStatusOptions" v-model="req.maritalStatus" />
                                 </b-form-group>
                             </b-col>
-                            <b-col sm="6" md="2">
+                            <b-col cols="5" sm="6" md="2">
                                 <b-form-group label="Grupo y RH">
                                     <b-form-input v-model="req.groupRH" />
                                 </b-form-group>
                             </b-col>
                         </b-row>
                         <b-row>
-                            <b-col cols="6" sm="6" md="4" lg="3">
+                            <b-col sm="6" md="4" lg="3">
                                 <b-form-group
                                 description="Puede cambiar el mes y año en la parte superior del calendario"
                                 label="Fecha de nacimiento">
@@ -59,12 +59,12 @@
                                     </b-input-group>
                                 </b-form-group>
                             </b-col>
-                            <b-col cols="6" sm="6" md="2" lg="3">
+                            <b-col cols="4" sm="6" md="2" lg="3">
                                 <b-form-group label="Edad">
                                     <b-form-input v-model="req.age" />
                                 </b-form-group>
                             </b-col>
-                            <b-col sm="6" md="6" lg="3">
+                            <b-col cols="8" sm="6" md="6" lg="3">
                                 <b-form-group label="Ocupación">
                                     <b-form-input v-model="req.occupation" />
                                 </b-form-group>

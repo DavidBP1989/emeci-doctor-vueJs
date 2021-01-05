@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.OData;
 using WebAPI.Models.DTO._Patient;
+using WebAPI.Services;
 using WebAPI.Services._Patient;
 using queryable = WebAPI.Query.QueryableAttribute;
 
