@@ -8,27 +8,27 @@
             </b-col>
         </b-row>
         <b-row class="mt-3 align-items-center">
-            <b-col cols="3" sm="2">
+            <b-col cols="6" sm="2">
                 <b-form-group label="Peso">
                     <span>{{ consult.BasicConsult.Weight }} kg</span>
                 </b-form-group>
             </b-col>
-            <b-col cols="3" sm="2">
+            <b-col cols="6" sm="2">
                 <b-form-group label="Talla">
                     <span>{{ consult.BasicConsult.Size }} m</span>
                 </b-form-group>
             </b-col>
-            <b-col cols="6" sm="5" md="4" lg="3">
+            <b-col sm="5" md="4" lg="3">
                 <b-form-group label="Índice de masa corporal">
                     <span>{{ consult.BasicConsult.Mass }} kg/m2</span>
                 </b-form-group>
             </b-col>
-            <b-col cols="3" md="2">
+            <b-col cols="5" md="2">
                 <b-form-group label="Temperatura">
                     <span>{{ consult.BasicConsult.Temperature }} c</span>
                 </b-form-group>
             </b-col>
-            <b-col cols="5" sm="6" md="4" lg="3">
+            <b-col cols="7" sm="6" md="4" lg="3">
                 <b-form-group label="Edad de su menarca">
                     <span>{{ consult.MenarcaAge }}</span>
                 </b-form-group>
@@ -38,12 +38,12 @@
                     <span>{{ consult.Menacma }}</span>
                 </b-form-group>
             </b-col>
-            <b-col cols="6" md="4">
+            <b-col cols="8" md="4">
                 <b-form-group label="Presión arterial sistólica">
                     <span>{{ consult.BasicConsult.BloodPressure_A }}</span>
                 </b-form-group>
             </b-col>
-            <b-col cols="6" md="4">
+            <b-col md="4">
                 <b-form-group label="Presión arterial diastólica">
                     <span>{{ consult.BasicConsult.BloodPressure_B }}</span>
                 </b-form-group>
@@ -61,7 +61,7 @@
         </b-row>
         <hr>
         <b-row>
-            <b-col md="3">
+            <b-col cols="5" order="1" order-sm="0" md="3" sm="12">
                 <b-row>
                     <b-col md="12">
                         <b-list-group>
@@ -134,37 +134,37 @@
                             <span>{{ consult.Partner.Name }}</span>
                         </b-form-group>
                     </b-col>
-                    <b-col cols="4" md="3">
+                    <b-col cols="6" md="3">
                         <b-form-group label="Sexo">
                             <span>{{ sex(consult.Partner.Sex) }}</span>
                         </b-form-group>
                     </b-col>
-                    <b-col cols="4" sm="3" md="3">
+                    <b-col cols="6" sm="3" md="3">
                         <b-form-group label="Estado civil">
                             <span>{{ maritalStatus(consult.Partner.MaritalStatus) }}</span>
                         </b-form-group>
                     </b-col>
-                    <b-col cols="4" sm="3">
+                    <b-col sm="3">
                         <b-form-group label="Grupo y RH">
                             <span>{{ consult.Partner.GroupRH }}</span>
                         </b-form-group>
                     </b-col>
-                    <b-col cols="6" md="4" lg="3">
+                    <b-col cols="8" md="4" lg="3">
                         <b-form-group label="Fecha de nacimiento">
                             <span>{{ getDateFormat(consult.Partner.BirthDate) }}</span>
                         </b-form-group>
                     </b-col>
-                    <b-col cols="6" sm="2" lg="3">
+                    <b-col cols="4" sm="2" lg="3">
                         <b-form-group label="Edad">
                             <span>{{ consult.Partner.Age }}</span>
                         </b-form-group>
                     </b-col>
-                    <b-col cols="6" sm="5" md="6" lg="3">
+                    <b-col sm="5" md="6" lg="3">
                         <b-form-group label="Ocupación">
                             <span>{{ consult.Partner.Occupation }}</span>
                         </b-form-group>
                     </b-col>
-                    <b-col cols="6" sm="5" lg="3">
+                    <b-col sm="5" lg="3">
                         <b-form-group label="Teléfono(s)">
                             <span>{{ consult.Partner.Phone }}</span>
                         </b-form-group>

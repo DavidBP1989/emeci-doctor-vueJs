@@ -8,6 +8,10 @@ using WebAPI.Models;
 using Dapper;
 using WebAPI.Models.DTO._Patient;
 using System.Threading.Tasks;
+using System.IO;
+using iTextSharp.text.pdf;
+using iTextSharp.text;
+using drawing = System.Drawing;
 
 namespace WebAPI.Services._Patient
 {
@@ -25,10 +29,6 @@ namespace WebAPI.Services._Patient
             ((IObjectContextAdapter)Context).ObjectContext.CommandTimeout = 120;
         }
 
-            
-        /// <summary>
-        /// get pacient list by doctor
-        /// </summary>
         public async Task<Tuple<int,IEnumerable<Patients>>> Get(int doctorId, int? page, int? itemsPerPage, string columnName, string textToSearch, string orderby)
         {
             string emeci = GetEmeci(doctorId);
@@ -51,10 +51,6 @@ namespace WebAPI.Services._Patient
             return new Tuple<int,IEnumerable<Patients>>(totalRows, _result);
         }
 
-
-        /// <summary>
-        /// get patient by id
-        /// </summary>
         public Patient GetByPatientId(int patientId)
         {
             var q = Context.vPatients
@@ -98,11 +94,6 @@ namespace WebAPI.Services._Patient
             return q;
         }
 
-
-        /// <summary>
-        /// get the next number of emeci
-        /// to add as a new patient
-        /// </summary>
         public string GetLastEmeci(int doctorId)
         {
             string emeci = GetPatientsByDoctorId(doctorId)
@@ -120,16 +111,14 @@ namespace WebAPI.Services._Patient
             return "";
         }
 
-
-        /// <summary>
-        /// add new patient
-        /// </summary>
         public NewPatientRes AddNewPatient(int doctorId, NewPatientReq req)
         {
+            var result = new NewPatientRes();
+            string emeci = GetLastEmeci(doctorId);
+            MemoryStream draw = null;
+
             try
             {
-                string emeci = GetLastEmeci(doctorId);
-
                 using (TransactionScope scope = new TransactionScope())
                 {
                     var r = new Registro
@@ -162,25 +151,29 @@ namespace WebAPI.Services._Patient
                     Context.Paciente.Add(p);
                     Context.SaveChanges();
 
+                    draw = DrawDataInCard(emeci);
+
                     scope.Complete();
-                    return new NewPatientRes
-                    {
-                        PatientId = p.idPaciente
-                    };
+                    result.PatientId = p.idPaciente;
                 }
             }
             catch (Exception ex)
             {
                 Log.Write($"WebAPI.Services._Patient - AddNewPatient => ${ex.Message}");
             }
-            return new NewPatientRes();
+
+            if (result.PatientId.HasValue && draw != null)
+            {
+                var emailService = new EmailService(req.Emails);
+                Task.Run(async () =>
+                {
+                    await emailService.SendPatientRegister(req, draw);
+                });
+            }
+
+            return result;
         }
 
-
-        /// <summary>
-        /// get patient who had already registered
-        /// with another doctor
-        /// </summary>
         public NewPatientRes FindExistingPatient(NewExistingPatientReq req)
         {
             var pquery = Context.Registro
@@ -209,8 +202,6 @@ namespace WebAPI.Services._Patient
 
             return new NewPatientRes();
         }
-
-
 
         private List<vPatients> GetPatientsByDoctorId(int doctorId)
         {
@@ -243,6 +234,125 @@ namespace WebAPI.Services._Patient
             if (!birthDate.HasValue)
                 return -1;
             return ((DateTime.Now.Year - birthDate.Value.Year) * 12) + (DateTime.Now.Month - birthDate.Value.Month);
+        }
+
+        private MemoryStream DrawDataInCard(string emeci)
+        {
+            var memory = new MemoryStream();
+            var doc = new Document();
+            var pdf = PdfWriter.GetInstance(doc, memory);
+
+            doc.Open();
+
+            var bfTimes = BaseFont.CreateFont(BaseFont.TIMES_ROMAN, BaseFont.CP1252, false);
+            var fBold = new Font(bfTimes, 8, Font.NORMAL, BaseColor.BLACK);
+
+            
+            var pdfTable = new PdfPTable(2)
+            {
+                TotalWidth = 500f,
+                LockedWidth = true,
+                HorizontalAlignment = 1
+            };
+
+            var widths = new float[] { 2.8f, 2.1f };
+            pdfTable.SetWidths(widths);
+            pdfTable.DefaultCell.Border = Rectangle.NO_BORDER;
+
+            var file = $"{AppDomain.CurrentDomain.BaseDirectory}imgAccess.jpg";
+            var image = Image.GetInstance(ConvertImageToBytes(file, emeci));
+            image.ScaleAbsolute(258f, 153f);
+
+            var cell = new PdfPCell(image)
+            {
+                HorizontalAlignment = Element.ALIGN_MIDDLE,
+                Border = Rectangle.NO_BORDER
+            };
+            pdfTable.AddCell(cell);
+
+            var position = new PdfPTable(11)
+            {
+                HorizontalAlignment = 1,
+                TotalWidth = 265f,
+                LockedWidth = true
+            };
+
+            var cellPosition = new PdfPCell(new Phrase("Posiciones de Acceso Seguro"))
+            {
+                BackgroundColor = new BaseColor(162, 212, 255),
+                HorizontalAlignment = 1,
+                Colspan = 11,
+                Border = Rectangle.NO_BORDER
+            };
+            position.AddCell(cellPosition);
+
+            string[] arrABC = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
+            for (var i = 0; i <= 10; i++)
+            {
+                position.DefaultCell.BackgroundColor = new BaseColor(255, 255, 255);
+                position.DefaultCell.Padding = 2f;
+                position.DefaultCell.Border = Rectangle.NO_BORDER;
+
+                if (i == 0)
+                    position.AddCell("");
+                else position.AddCell(new Phrase(arrABC[i - 1], fBold));
+            }
+
+            bool color = true;
+            DatosTarjeta dt;
+
+            for (int i = 1; i <= 10; i++)
+            {
+                if (color)
+                    position.DefaultCell.BackgroundColor = new BaseColor(162, 212, 255);
+                else position.DefaultCell.BackgroundColor = new BaseColor(255, 255, 255);
+
+                color = !color;
+
+                position.AddCell(new Phrase(i.ToString(), fBold));
+
+                string letter;
+                for (var j = 0; j <= 9; j++)
+                {
+                    letter = arrABC[j];
+                    dt = new DatosTarjeta
+                    {
+                        noTarjeta = emeci,
+                        Dato = new Random().Next(0, 999).ToString("00#"),
+                        Coordenada = $"{letter}{i}"
+                    };
+
+                    position.AddCell(new Phrase(dt.Dato, fBold));
+                    Context.DatosTarjeta.Add(dt);
+                }
+            }
+
+            pdfTable.AddCell(position);
+            doc.Add(pdfTable);
+
+            pdf.CloseStream = false;
+            doc.Close();
+            memory.Position = 0;
+            Context.SaveChanges();
+
+            return memory;
+        }
+
+        private byte[] ConvertImageToBytes(string file, string msj)
+        {
+            var bitImg = new drawing.Bitmap(file);
+            var gImg = drawing.Graphics.FromImage(bitImg);
+
+            gImg.SmoothingMode = drawing.Drawing2D.SmoothingMode.AntiAlias;
+            gImg.DrawString(
+                msj,
+                new drawing.Font("Arial", 20, drawing.FontStyle.Bold),
+                drawing.SystemBrushes.Window, new drawing.Point(50, 175)
+            );
+
+            var ms = new MemoryStream();
+            bitImg.Save(ms, drawing.Imaging.ImageFormat.Jpeg);
+            return ms.ToArray();
         }
     }
 }

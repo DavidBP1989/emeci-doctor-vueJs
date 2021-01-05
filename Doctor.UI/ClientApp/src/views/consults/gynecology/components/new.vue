@@ -15,14 +15,14 @@
                     </b-input-group>
                 </b-form-group>
             </b-col>
-            <b-col cols="6" sm="6" md="4" lg="3">
+            <b-col cols="7" sm="6" md="4" lg="3">
                 <b-form-group label="Índice de masa corporal">
                     <b-input-group append="kg/m2">
                         <b-form-input disabled :value="mass" />
                     </b-input-group>
                 </b-form-group>
             </b-col>
-            <b-col cols="6" sm="6" md="2" lg="3">
+            <b-col cols="5" sm="6" md="2" lg="3">
                 <b-form-group label="Temperatura">
                     <b-input-group append="c">
                         <b-form-input v-model="req.temperature" @keypress="onlyDecimals" />
@@ -31,22 +31,22 @@
             </b-col>
         </b-row>
         <b-row>
-            <b-col cols="6" sm="6" md="4" lg="3">
+            <b-col sm="6" md="4" lg="3">
                 <b-form-group label="Edad de su menarca">
                     <b-form-input v-model="req.menarcaAge" @keypress="onlyDecimals" />
                 </b-form-group>
             </b-col>
-            <b-col cols="6" sm="6" md="4" lg="3">
+            <b-col sm="6" md="4" lg="3">
                 <b-form-group label="Presión arterial sistólica">
                     <b-form-input v-model="req.bloodPressure_A" @keypress="onlyDecimals" />
                 </b-form-group>
             </b-col>
-            <b-col cols="6" sm="6" md="4" lg="3">
+            <b-col sm="6" md="4" lg="3">
                 <b-form-group label="Presión arterial diastólica">
                     <b-form-input v-model="req.bloodPressure_B" @keypress="onlyDecimals" />
                 </b-form-group>
             </b-col>
-            <b-col cols="6" sm="6" md="4" lg="3">
+            <b-col sm="6" md="4" lg="3">
                 <b-form-group
                 description="Puede cambiar el mes y año en la parte superior del calendario"
                 label="Fecha última menstruación">
@@ -68,22 +68,22 @@
             </b-col>
         </b-row>
         <b-row>
-            <b-col cols="3" sm="3" md="2">
+            <b-col cols="4" sm="3" md="2">
                 <b-form-group label="Gestas">
                     <b-form-input type="number" min="0" v-model="req.gestas" />
                 </b-form-group>
             </b-col>
-            <b-col cols="3" sm="3" md="2">
+            <b-col cols="4" sm="3" md="2">
                 <b-form-group label="Paragestas">
                     <b-form-input type="number" min="0" v-model="req.paragestas" />
                 </b-form-group>
             </b-col>
-            <b-col cols="3" sm="3" md="2">
+            <b-col cols="4" sm="3" md="2">
                 <b-form-group label="Cesáreas">
                     <b-form-input type="number" min="0" v-model="req.cesareans" />
                 </b-form-group>
             </b-col>
-            <b-col cols="3" sm="3" md="2">
+            <b-col cols="6" sm="3" md="2">
                 <b-form-group label="Abortos">
                     <b-form-input type="number" min="0" v-model="req.abortions" />
                 </b-form-group>
@@ -98,12 +98,12 @@
                     <b-form-input type="number" min="0" v-model="req.stillbirth" />
                 </b-form-group>
             </b-col>
-            <b-col cols="6" sm="8" md="6">
+            <b-col order="6" sm="8" md="6">
                 <b-form-group label="Edad de inicio de vida sexual activa">
                     <b-form-input v-model="req.ageOfOnsetOfActiveSexualLife" @keypress="onlyDecimals"/>
                 </b-form-group>
             </b-col>
-            <b-col cols="6" sm="4" md="4">
+            <b-col order="5" cols="6" sm="4" md="4">
                 <b-form-group label="Menacmia">
                     <b-form-input v-model="req.menacma" />
                 </b-form-group>
@@ -113,8 +113,8 @@
             <b-col>
                 <b-form-group>
                     <b-form-checkbox-group
-                        v-model="req.selected"
-                        :options="options" />
+                    v-model="req.selected"
+                    :options="options" />
                 </b-form-group>
             </b-col>
         </b-row>

@@ -355,6 +355,188 @@ namespace WebAPI.Services._Consults
         }
         #endregion
 
+
+        #region obstetric
+        public ObstetricConsult GetObstetricConsult(int consultId)
+        {
+            var q = (from c in Context.Consultas
+                     join g in Context.ConsultaObstetrica
+                     on c.idconsulta equals g.idconsulta into joined
+                     from j in joined.DefaultIfEmpty()
+                     where j != null && c.idconsulta == consultId
+                     select new ObstetricConsult
+                     {
+                         BasicConsult = new BasicConsult
+                         {
+                             Weight = c.Peso,
+                             Size = c.Altura,
+                             Mass = 0,
+                             Temperature = c.Temperatura,
+                             BloodPressure_A = c.TensionArterial,
+                             BloodPressure_B = c.TensionArterialB,
+                             ReasonForConsultation = c.motivo
+                         },
+                         PatientConsult = new PatientConsult
+                         {
+                             PatientId = c.idpaciente
+                         },
+                         PregnancyNumber = j.noembarazo.Value,
+                         SexuallyActive = j.activaSexualmente.Value,
+                         LastParturitionDate = j.FechaUltmoParto,
+                         FirstDayOfLastMenstruation = j.PrimerDiaUltimaMestruacuion,
+                         PreviousToxemias = j.ToxemiasPrevias.Value == 1,
+                         SpecifyToxemias = j.EspecifiqueToxemias,
+                         Parturition = j.Partos.Value,
+                         DystociaType = j.TipoDistocia.Value,
+                         SpecifyDystociaType = j.EspecifiqueTipoDistocia,
+                         DystociaReason = j.MotivoDistocia.Value,
+                         SpecifyDystociaReason = j.EspecifiqueMotivoDistocia,
+                         PreviousCesarean = j.CesareasPrevia.Value,
+                         Forceps = j.UsoDeForceps.Value,
+                         Stillbirths = j.Motinatos.Value,
+                         NewbornAlive = j.RMVivos.Value,
+                         EctopicPregnancies = j.EmbarazoEtopicos == 1,
+                         SpecifyEctopicPregnancies = j.EmbrazoEtopicoExplique,
+                         PreviousPregnacyComplications = j.EmbrazosComplicadosPrevios == 1,
+                         SpecifyPreviousPregnacyComplications = j.EmbarazosComplicadosExplique,
+                         PerinatalComplications = j.NoComplicacionesPertinales == 1,
+                         SpecifyPerinatalComplications = j.ComplicacionesPerinatalesExplique,
+                         AbnormalPregnancies = j.NoEmbrazosAnormales == 1,
+                         SpecifyAbnormalPregnancies = j.EmbarazosAnormalesExplique,
+                         Observations = j.Observaciones,
+                         PregnancyControl = new PregnancyControl
+                         {
+                             FU = j.FU.Value,
+                             FCF = j.FCF.Value,
+                             CC = j.CC.Value,
+                             CA = j.CA.Value,
+                             LF = j.LF.Value,
+                             DBP = j.DSP.Value,
+                             Position = j.Posicion,
+                             Presentation = j.Presentacion,
+                             Situtation = j.siuacuion,
+                             Attitude = j.Actitud,
+                             FetalMovements = j.MovimientosFetales,
+                             ApproximateProductWeight = j.PesoAproxProducto.Value,
+                             TA = j.TA.Value,
+                             FCM = j.FCM.Value,
+                             Edema = j.Edema,
+                             MadeUf = j.SeHizoUf.Value,
+                             Ultrasound = j.ultrasonido,
+                             PhysicalExploration = j.exploracionFisica
+                         }
+                     }).FirstOrDefault();
+            if (q != null)
+            {
+                if (q.BasicConsult.Size % 1 == 0)
+                    q.BasicConsult.Size /= 100;
+                if (q.BasicConsult.Weight > 0 && q.BasicConsult.Size > 0)
+                {
+                    double mass = (double)(q.BasicConsult.Weight / (q.BasicConsult.Size * q.BasicConsult.Size));
+                    q.BasicConsult.Mass = (float)Math.Round(mass);
+                }
+            }
+
+            return q;
+        }
+
+        public bool SaveObstetricConsult(int doctorId, ObstetricConsult req)
+        {
+            try
+            {
+                using (TransactionScope scope = new TransactionScope())
+                {
+                    var now = DateTime.Now;
+
+                    Paciente p = Context.Paciente.FirstOrDefault(x => x.idPaciente == req.PatientConsult.PatientId);
+                    p.AlergiaMedicina = req.PatientConsult.Allergies;
+                    p.AlergiaOtros = req.PatientConsult.Reserved;
+                    p.Patologia = req.PatientConsult.RelevantPathologies;
+                    Context.SaveChanges();
+
+                    var consult = new Consultas
+                    {
+                        idmedico = doctorId,
+                        idpaciente = req.PatientConsult.PatientId,
+                        Peso = req.BasicConsult.Weight,
+                        Altura = req.BasicConsult.Size,
+                        Temperatura = req.BasicConsult.Temperature,
+                        TensionArterial = req.BasicConsult.BloodPressure_A,
+                        TensionArterialB = req.BasicConsult.BloodPressure_B,
+                        motivo = req.BasicConsult.ReasonForConsultation,
+                        Fecha = now
+                    };
+
+                    Context.Consultas.Add(consult);
+                    Context.SaveChanges();
+
+                    var consultObst = new ConsultaObstetrica
+                    {
+                        idconsulta = consult.idconsulta,
+                        noembarazo = req.PregnancyNumber,
+                        activaSexualmente = req.SexuallyActive,
+                        abortos = req.Abortions,
+                        FechaUltmoParto = req.LastParturitionDate,
+                        PrimerDiaUltimaMestruacuion = req.FirstDayOfLastMenstruation,
+                        ToxemiasPrevias = (byte?)(req.PreviousToxemias ? 1 : 0),
+                        EspecifiqueToxemias = req.PreviousToxemias ? req.SpecifyToxemias : null,
+                        Partos = req.Parturition,
+                        CesareasPrevia = req.PreviousCesarean,
+                        UsoDeForceps = req.Forceps,
+                        Motinatos = req.Stillbirths,
+                        RMVivos = req.NewbornAlive,
+                        EmbarazoEtopicos = (byte?)(req.EctopicPregnancies ? 1 : 0),
+                        EmbrazoEtopicoExplique = req.EctopicPregnancies ? req.SpecifyEctopicPregnancies : null,
+                        EmbrazosComplicadosPrevios = (byte?)(req.PreviousPregnacyComplications ? 1 : 0),
+                        EmbarazosComplicadosExplique = req.PreviousPregnacyComplications ? req.SpecifyPreviousPregnacyComplications : null,
+                        NoComplicacionesPertinales = (byte?)(req.PerinatalComplications ? 1 : 0),
+                        ComplicacionesPerinatalesExplique = req.PerinatalComplications ? req.SpecifyPerinatalComplications : null,
+                        NoEmbrazosAnormales = (byte?)(req.AbnormalPregnancies ? 1 : 0),
+                        EmbarazosAnormalesExplique = req.AbnormalPregnancies ? req.SpecifyAbnormalPregnancies : null,
+                        Observaciones = req.Observations,
+                        FU = req.PregnancyControl.FU,
+                        FCF = req.PregnancyControl.FCF,
+                        CC = req.PregnancyControl.CC,
+                        CA = req.PregnancyControl.CA,
+                        LF = req.PregnancyControl.LF,
+                        DSP = req.PregnancyControl.DBP,
+                        Posicion = req.PregnancyControl.Position,
+                        Presentacion = req.PregnancyControl.Presentation,
+                        siuacuion = req.PregnancyControl.Situtation,
+                        Actitud = req.PregnancyControl.Attitude,
+                        MovimientosFetales = req.PregnancyControl.FetalMovements,
+                        PesoAproxProducto = req.PregnancyControl.ApproximateProductWeight,
+                        TA = req.PregnancyControl.TA,
+                        FCM = req.PregnancyControl.FCM,
+                        Edema = req.PregnancyControl.Edema,
+                        SeHizoUf = req.PregnancyControl.MadeUf,
+                        ultrasonido = req.PregnancyControl.Ultrasound,
+                        exploracionFisica = req.PregnancyControl.PhysicalExploration
+                    };
+
+                    if (req.Parturition == 1)
+                    {
+                        consultObst.TipoDistocia = (byte?)req.DystociaType;
+                        consultObst.EspecifiqueTipoDistocia = req.DystociaType == 3 ? req.SpecifyDystociaType : null;
+                        consultObst.MotivoDistocia = (byte?)req.DystociaReason;
+                        consultObst.EspecifiqueMotivoDistocia = req.DystociaReason == 4 ? req.SpecifyDystociaReason : null;
+                    }
+
+                    Context.ConsultaObstetrica.Add(consultObst);
+                    Context.SaveChanges();
+
+                    scope.Complete();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Write($"WebAPI.Services._Consults - SaveObstetricConsult => ${ex.Message}");
+            }
+            return false;
+        }
+        #endregion
+
         public IEnumerable<ConsultationDates> GetConsultationDates(int pacientId)
         {
             return Context.Consultas

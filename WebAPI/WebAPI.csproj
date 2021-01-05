@@ -44,6 +44,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.6.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\packages\BouncyCastle.1.8.6.1\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
     <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Dapper.2.0.35\lib\net461\Dapper.dll</HintPath>
     </Reference>
@@ -52,6 +55,9 @@
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.2, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13.2\lib\itextsharp.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.3\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
@@ -164,6 +170,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="BienvenidaMailEMECI.jpg" />
+    <Content Include="imgAccess.jpg" />
     <Content Include="Models\EDMEmeci.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>EDMEmeci.Context.cs</LastGenOutput>
@@ -221,6 +229,7 @@
     <Compile Include="Models\DTO\_Consults\BasicConsult.cs" />
     <Compile Include="Models\DTO\_Consults\Consult.cs" />
     <Compile Include="Models\DTO\_Consults\GynecologyConsult.cs" />
+    <Compile Include="Models\DTO\_Consults\ObstetricConsult.cs" />
     <Compile Include="Models\DTO\_Consults\PatientConsult.cs" />
     <Compile Include="Models\DTO\_Diagnostic\DiagnosticsRes.cs" />
     <Compile Include="Models\DTO\_Doctor\ChangePwdReq.cs" />
