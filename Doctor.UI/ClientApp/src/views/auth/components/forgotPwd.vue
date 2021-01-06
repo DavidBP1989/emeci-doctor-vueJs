@@ -3,7 +3,7 @@
         <b-form @submit="onSubmit" autocomplete="off">
             <p class="brand-wrapper mb-3">Recordar contrase&ntilde;a</p>
             <b-form-group class="mb-4">
-                <b-form-input v-model="emeci" @keypress="format" placeholder="Número de tarjeta" />
+                <b-form-input v-model="emeci" maxlength="10" @keypress="format" placeholder="Número de tarjeta" />
             </b-form-group>
             <b-button type="submit" class="w-100 mb-4 main-button">Recordar</b-button>
         </b-form>

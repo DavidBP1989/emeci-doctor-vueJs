@@ -174,9 +174,19 @@
 import distocias from './distocias.vue'
 import pregnancies from './pregnancies.vue'
 import pregnancyControl from './pregnancyControl.vue'
-import { onlyNumber } from '@/helper/util';
+import { saved, onlyNumber, initLoader } from '@/helper/util'
+import model from '../helper/model'
+import eventBus from '@/helper/event-bus'
+import api from '@/api/obstConsult-service'
+let loader = null
 
 export default {
+    props: {
+        patientInfo: {
+            type: Object,
+            required: true
+        }
+    },
     components: {
         distocias,
         pregnancies,
@@ -184,6 +194,7 @@ export default {
     },
     data() {
         return {
+            patientId: this.$route.params.id,
             parturitionOptions: [
                 { text: 'Eutócico', value: '0' },
                 { text: 'Distocico', value: '1' }
@@ -243,7 +254,9 @@ export default {
                 },
                 reasonForConsultation: null,
                 exploration: null
-            }
+            },
+            error: false,
+            reqTosend: {}
         }
     },
     computed: {
@@ -261,7 +274,33 @@ export default {
     methods: {
         onlyDecimals(evt) {
             onlyNumber(evt, true)
-        }
+        },
+        saveConsult() {
+            this.reqValidation();
+            if (!this.error) {
+                loader = initLoader();
+
+                api.post(this.doctorId, this.reqTosend).then(resp => {
+                    loader.hide();
+                    saved(true, 'Consulta agregada', null);
+                    this.clear();
+                    eventBus.$emit('putInPreviewGyneConsult');
+                })
+                .catch(_error => {
+                    loader.hide();
+                });
+            }
+        },
+        reqValidation() {
+            const _model = new model(this.patientId, this.patientInfo, this.req)
+
+            _model.validate();
+            if (_model.errors.length > 0) this.error = true;
+            else {
+                this.reqTosend = _model.__$;
+                this.error = false;
+            }
+        },
     }
 }
 </script>

@@ -46,6 +46,12 @@ export default {
             }
         });
     },
+    props: {
+        patientInfo: {
+            type: Object,
+            required: true
+        }
+    },
     components: {
         previewConsult,
         newConsult,
